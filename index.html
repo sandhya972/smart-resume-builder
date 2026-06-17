@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Resume Builder | Create Professional Resumes Instantly</title>
+  <meta name="description" content="Build and export stunning, professional resumes with real-time live preview. Choose from modern templates and download print-ready PDFs.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- FontAwesome Icons for UI -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- html2pdf.js for Client-Side PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5IfSuxQto8c51HU4JHqyi9w+/iA4mjvZOqiJO+Enygrowt5qpQqRx47sh1lnPae5eyyb9VL3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <a href="#" class="logo">
+      <div class="logo-icon">
+        <i class="fa-solid fa-file-invoice"></i>
+      </div>
+      <div class="logo-text">Smart <span>Resume Builder</span></div>
+    </a>
+    
+    <div class="header-actions">
+      <!-- Built for Digital Heroes button -->
+      <a href="https://digitalheroesco.com" target="_blank" class="digital-heroes-btn" id="btn-digital-heroes">
+        <i class="fa-solid fa-bolt"></i> Built for Digital Heroes
+      </a>
+      
+      <!-- Theme Switcher -->
+      <button class="theme-toggle" id="theme-toggle" title="Toggle Light/Dark Theme" aria-label="Toggle Light/Dark Theme">
+        <i class="fa-solid fa-moon moon-icon"></i>
+        <i class="fa-solid fa-sun sun-icon"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Landing Page Section -->
+  <section class="landing-page" id="landing-page">
+    <div class="landing-hero">
+      <h1 class="landing-title">Smart Resume Builder</h1>
+      <p class="landing-subtitle">Create Professional Resumes in Minutes</p>
+      <a href="#builder-workspace" class="btn btn-primary btn-lg cta-btn" id="btn-cta">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Start Building Resume
+      </a>
+    </div>
+    
+    <div class="features-section">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-eye"></i></div>
+        <h3 class="feature-title">Live Preview</h3>
+        <p class="feature-desc">Watch your resume update in real-time as you type in the editor.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-file-pdf"></i></div>
+        <h3 class="feature-title">PDF Download</h3>
+        <p class="feature-desc">Download high-resolution, recruiter-ready PDFs instantly.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-cubes"></i></div>
+        <h3 class="feature-title">Multiple Templates</h3>
+        <p class="feature-desc">Choose from Modern, Classic, or Creative layouts in one click.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+        <h3 class="feature-title">Mobile Responsive</h3>
+        <p class="feature-desc">Design and edit your resume comfortably on any device.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- App Main Content Container -->
+  <main class="app-container" id="builder-workspace">
+    
+    <!-- Left Pane: Resume Editor -->
+    <section class="editor-pane">
+      <div class="editor-header">
+        <h2 class="editor-title">
+          <i class="fa-solid fa-pen-to-square"></i> Resume Editor
+        </h2>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-secondary btn-sm" id="btn-clear-form" type="button" style="border-color: #fca5a5; color: #b91c1c; background-color: #fee2e2;">
+            <i class="fa-solid fa-trash-can"></i> Clear Form
+          </button>
+          <button class="btn btn-secondary btn-sm" id="btn-demo-data" type="button">
+            <i class="fa-solid fa-magic-wand-to-magic"></i> Load Demo Data
+          </button>
+        </div>
+      </div>
+      
+      <div class="editor-scroll-area">
+        <form id="resume-form" onsubmit="event.preventDefault();">
+          
+          <!-- 1. Personal Details Accordion -->
+          <div class="accordion active" id="acc-personal">
+            <div class="accordion-header" onclick="toggleAccordion('acc-personal')">
+              <span class="accordion-header-title">
+                <i class="fa-solid fa-user"></i> Personal Details
+              </span>
+              <i class="fa-solid fa-chevron-down accordion-chevron"></i>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-inner">
+                <!-- Profile Photo Upload -->
+                <div class="form-group" style="margin-bottom: 1rem;">
+                  <label>Profile Photo</label>
+                  <div class="photo-upload-wrapper">
+                    <input type="file" id="input-photo" class="input-field" accept="image/*" style="display: none;">
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-upload-photo" style="border-color: #cbd5e1; background-color: var(--input-bg); color: var(--text-primary);">
+                      <i class="fa-solid fa-camera"></i> Upload Photo
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm" id="btn-remove-photo" style="display: none;">
+                      <i class="fa-solid fa-xmark"></i> Remove
+                    </button>
+                    <span id="photo-filename" class="photo-filename">No photo uploaded</span>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="input-fullname">Full Name</label>
+                  <input type="text" id="input-fullname" class="input-field" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                  <label for="input-title">Job Title / Subtitle</label>
+                  <input type="text" id="input-title" class="input-field" placeholder="Full Stack Web Developer">
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="input-email">Email</label>
+                    <input type="email" id="input-email" class="input-field" placeholder="johndoe@example.com">
+                  </div>
+                  <div class="form-group">
+                    <label for="input-phone">Phone Number</label>
+                    <input type="tel" id="input-phone" class="input-field" placeholder="+1 (555) 019-2834">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="input-location">Location</label>
+                    <input type="text" id="input-location" class="input-field" placeholder="San Francisco, CA">
+                  </div>
+                  <div class="form-group">
+                    <label for="input-website">Website / Portfolio</label>
+                    <input type="url" id="input-website" class="input-field" placeholder="https://johndoe.dev">
+                  </div>
+                </div>
+                <div class="form-row" style="margin-top: 0.75rem;">
+                  <div class="form-group">
+                    <label for="input-linkedin">LinkedIn URL</label>
+                    <input type="url" id="input-linkedin" class="input-field" placeholder="https://www.linkedin.com/in/YOUR-LINKEDIN">
+                  </div>
+                  <div class="form-group">
+                    <label for="input-github">GitHub URL</label>
+                    <input type="url" id="input-github" class="input-field" placeholder="https://github.com/YOUR-GITHUB-USERNAME">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="input-summary">Professional Summary</label>
+                  <textarea id="input-summary" class="input-field" placeholder="Highly motivated and detail-oriented developer with 3+ years of experience in building modern web applications..."></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Education Accordion -->
+          <div class="accordion" id="acc-education">
+            <div class="accordion-header" onclick="toggleAccordion('acc-education')">
+              <span class="accordion-header-title">
+                <i class="fa-solid fa-graduation-cap"></i> Education
+              </span>
+              <i class="fa-solid fa-chevron-down accordion-chevron"></i>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-inner">
+                <div class="repeated-list" id="education-list">
+                  <!-- Education items added dynamically -->
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-add-education">
+                  <i class="fa-solid fa-plus"></i> Add Education
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Skills Accordion -->
+          <div class="accordion" id="acc-skills">
+            <div class="accordion-header" onclick="toggleAccordion('acc-skills')">
+              <span class="accordion-header-title">
+                <i class="fa-solid fa-screwdriver-wrench"></i> Skills
+              </span>
+              <i class="fa-solid fa-chevron-down accordion-chevron"></i>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-inner">
+                <div class="form-group">
+                  <label for="input-skills">Skills (separated by commas)</label>
+                  <textarea id="input-skills" class="input-field" placeholder="JavaScript, React, Node.js, HTML5, CSS3, Git, REST APIs"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Projects Accordion -->
+          <div class="accordion" id="acc-projects">
+            <div class="accordion-header" onclick="toggleAccordion('acc-projects')">
+              <span class="accordion-header-title">
+                <i class="fa-solid fa-diagram-project"></i> Projects
+              </span>
+              <i class="fa-solid fa-chevron-down accordion-chevron"></i>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-inner">
+                <div class="repeated-list" id="projects-list">
+                  <!-- Project items added dynamically -->
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-add-project">
+                  <i class="fa-solid fa-plus"></i> Add Project
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Certifications Accordion -->
+          <div class="accordion" id="acc-certifications">
+            <div class="accordion-header" onclick="toggleAccordion('acc-certifications')">
+              <span class="accordion-header-title">
+                <i class="fa-solid fa-certificate"></i> Certifications
+              </span>
+              <i class="fa-solid fa-chevron-down accordion-chevron"></i>
+            </div>
+            <div class="accordion-content">
+              <div class="accordion-inner">
+                <div class="repeated-list" id="certifications-list">
+                  <!-- Certifications added dynamically -->
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-add-certification">
+                  <i class="fa-solid fa-plus"></i> Add Certification
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </section>
+    
+    <!-- Right Pane: Live Preview -->
+    <section class="preview-pane">
+      <div class="preview-toolbar">
+        <!-- Template Selection -->
+        <div class="toolbar-group">
+          <span class="toolbar-label">Template</span>
+          <select id="select-template" class="select-input" aria-label="Select Template">
+            <option value="modern">Modern Sleek</option>
+            <option value="classic">Classic Executive</option>
+            <option value="creative">Creative Tech</option>
+          </select>
+        </div>
+
+        <!-- Color Accent Selection -->
+        <div class="toolbar-group">
+          <span class="toolbar-label">Accent Color</span>
+          <div class="color-picker">
+            <button class="color-option active" style="background-color: #2563eb;" data-color="#2563eb" title="Royal Blue" aria-label="Royal Blue Accent"></button>
+            <button class="color-option" style="background-color: #059669;" data-color="#059669" title="Emerald Green" aria-label="Emerald Green Accent"></button>
+            <button class="color-option" style="background-color: #7c3aed;" data-color="#7c3aed" title="Purple Rain" aria-label="Purple Rain Accent"></button>
+            <button class="color-option" style="background-color: #e11d48;" data-color="#e11d48" title="Crimson Rose" aria-label="Crimson Rose Accent"></button>
+            <button class="color-option" style="background-color: #4b5563;" data-color="#4b5563" title="Charcoal Gray" aria-label="Charcoal Gray Accent"></button>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="toolbar-group">
+          <button class="btn btn-secondary" id="btn-generate-resume">
+            <i class="fa-solid fa-arrows-rotate"></i> Generate Resume
+          </button>
+          <button class="btn btn-primary" id="btn-download-pdf">
+            <i class="fa-solid fa-download"></i> Download Resume as PDF
+          </button>
+        </div>
+      </div>
+      
+      <!-- Live Preview Paper Container -->
+      <div class="preview-scroll-area">
+        <div class="resume-paper template-modern" id="resume-preview">
+          <!-- The script.js will dynamically render the HTML content of the resume here -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- App Footer -->
+  <footer class="app-footer">
+    <div class="footer-info">
+      <span>Developed by <strong>Yerragudi Sandhya</strong></span>
+      <span>Email: <strong><a href="mailto:yerragudisandhya71@gmail.com" style="color: inherit; text-decoration: underline;">yerragudisandhya71@gmail.com</a></strong></span>
+    </div>
+    <div>
+      <a href="https://digitalheroesco.com" target="_blank" class="digital-heroes-btn" id="btn-digital-heroes-footer" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">
+        <i class="fa-solid fa-bolt"></i> Built for Digital Heroes
+      </a>
+    </div>
+  </footer>
+
+  <!-- JS Logic -->
+  <script src="script.js"></script>
+</body>
+</html>
