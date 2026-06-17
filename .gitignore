@@ -1,0 +1,15 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# Vercel
+.vercel
+
+# Node modules
+node_modules/
